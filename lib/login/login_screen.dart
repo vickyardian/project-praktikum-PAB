@@ -70,8 +70,6 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 150),
 
                 // Tombol Masuk
-
-                //tanpa
                 ElevatedButton(
                   //Tanpa tombol kembali
                   onPressed: () {
