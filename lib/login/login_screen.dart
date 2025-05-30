@@ -71,27 +71,15 @@ class LoginScreen extends StatelessWidget {
 
                 // Tombol Masuk
                 ElevatedButton(
-                  //Tanpa tombol kembali
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                    );
-                  },
-
-                  //dengan tombol kembali
-                  /*
                   onPressed: () {
                     Navigator.push(
+                      //push/pushReplacement
                       context,
                       MaterialPageRoute(
                         builder: (context) => const HomeScreen(),
                       ),
                     );
                   },
-                  */
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[200],
                     padding: const EdgeInsets.symmetric(
