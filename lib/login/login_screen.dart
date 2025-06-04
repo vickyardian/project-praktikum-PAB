@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                 // Tombol Masuk
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       //push/pushReplacement
                       context,
                       MaterialPageRoute(

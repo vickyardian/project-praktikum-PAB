@@ -29,6 +29,7 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       body: ListView(
         children: [
+          // Gambar makanan
           Image.asset(
             widget.image,
             width: double.infinity,
@@ -36,17 +37,26 @@ class _DetailScreenState extends State<DetailScreen> {
             fit: BoxFit.cover,
           ),
 
-          // Icon Love di bawah gambar
+          // Nama makanan dan ikon love dalam satu baris
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Expanded(
+                  child: Text(
+                    widget.title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 IconButton(
                   icon: Icon(
                     isLoved ? Icons.favorite : Icons.favorite_border,
                     color: isLoved ? Colors.red : Colors.grey,
-                    size: 30,
+                    size: 28,
                   ),
                   onPressed: () {
                     setState(() {
@@ -58,12 +68,15 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
 
-          // Deskripsi
+          const SizedBox(height: 4),
+
+          // Deskripsi makanan
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               widget.description,
               style: GoogleFonts.poppins(fontSize: 16),
+              textAlign: TextAlign.left,
             ),
           ),
 
