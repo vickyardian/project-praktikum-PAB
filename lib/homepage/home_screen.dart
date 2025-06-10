@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'detail_menu.dart';
 import 'menu_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,32 +16,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Map<String, String>> homeMenuList = const [
     {
-      'title': 'Nasi Goreng Spesial',
+      'title': 'Menu Nasi Goreng',
       'image': 'assets/images/menu1.png',
       'description': 'Nasi goreng dengan bumbu spesial dan topping lengkap',
     },
     {
-      'title': 'Mie Ayam Pedas',
+      'title': 'Menu Mie',
       'image': 'assets/images/menu2.png',
       'description': 'Mie ayam dengan cita rasa pedas menggigit dan gurih',
     },
     {
-      'title': 'Sate Ayam Madura',
+      'title': 'Menu Sate',
       'image': 'assets/images/menu3.png',
       'description': 'Sate ayam khas Madura dengan bumbu kacang yang lezat',
     },
     {
-      'title': 'Bakso Beranak',
+      'title': 'Menu Bakso',
       'image': 'assets/images/bakso.webp',
       'description': 'Bakso isi telur dan bakso kecil-kecil yang menggoda',
     },
     {
-      'title': 'Ayam Geprek',
+      'title': 'Menu Ayam',
       'image': 'assets/images/ayamgeprek.jpg',
       'description': 'Ayam geprek super pedas dengan sambal bawang',
     },
     {
-      'title': 'Tahu Tek Surabaya',
+      'title': 'Menu Tahu Tek',
       'image': 'assets/images/tahutek.jpg',
       'description': 'Tahu tek khas Surabaya dengan lontong dan petis',
     },
@@ -54,37 +55,57 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> appBarTitles = ['Beranda', 'Daftar Menu'];
+    final List<String> appBarTitles = ['Beranda', 'Daftar Menu', 'Profile'];
 
-    final Widget bodyContent =
-        _selectedIndex == 0 ? _buildGrid(homeMenuList) : const MenuScreen();
+    Widget bodyContent;
+    switch (_selectedIndex) {
+      case 0:
+        bodyContent = _buildGrid(homeMenuList);
+        break;
+      case 1:
+        bodyContent = const MenuScreen();
+        break;
+      case 2:
+        bodyContent = const ProfileScreen();
+        break;
+      default:
+        bodyContent = _buildGrid(homeMenuList);
+    }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          appBarTitles[_selectedIndex],
-          style: GoogleFonts.poppins(
-            textStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        backgroundColor: const Color.fromARGB(255, 42, 136, 18),
-      ),
-
-      body: Padding(padding: const EdgeInsets.all(8.0), child: bodyContent),
+      appBar:
+          _selectedIndex == 2
+              ? null
+              : AppBar(
+                // Hide AppBar for Profile screen
+                title: Text(
+                  appBarTitles[_selectedIndex],
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                backgroundColor: const Color.fromARGB(255, 42, 136, 18),
+              ),
+      body:
+          _selectedIndex == 2
+              ? bodyContent // Profile screen handles its own padding
+              : Padding(padding: const EdgeInsets.all(8.0), child: bodyContent),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onNavTapped,
         selectedItemColor: Colors.green[700],
+        type: BottomNavigationBarType.fixed, // Required for 3+ tabs
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_menu),
             label: 'Menu',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );

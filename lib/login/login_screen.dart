@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../homepage/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
+  Future<void> _logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Hapus semua data tersimpan
+    Navigator.pushReplacementNamed(context, '/register'); // Kembali ke Register
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +23,10 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Geser teks ke atas dengan Align + Padding
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 50,
-                    ), // 50 ukuran tinggi judul
+                    padding: const EdgeInsets.only(top: 50),
                     child: Column(
                       children: [
                         Text(
@@ -40,9 +44,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 100), // jarak setelah judul
-                // NIM
+                const SizedBox(height: 100),
                 Text(
                   '1462200096',
                   style: GoogleFonts.poppins(
@@ -50,15 +52,9 @@ class LoginScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
-                // Logo
                 Image.asset('assets/images/logo.png', height: 150),
-
                 const SizedBox(height: 20),
-
-                // Nama
                 Text(
                   'Vicky Ardiansyah',
                   style: GoogleFonts.poppins(
@@ -66,14 +62,12 @@ class LoginScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
-                const SizedBox(height: 150),
+                const SizedBox(height: 100),
 
                 // Tombol Masuk
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
-                      //push/pushReplacement
                       context,
                       MaterialPageRoute(
                         builder: (context) => const HomeScreen(),
@@ -94,6 +88,20 @@ class LoginScreen extends StatelessWidget {
                     'Masuk',
                     style: GoogleFonts.poppins(
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Tombol Keluar
+                TextButton(
+                  onPressed: () => _logout(context),
+                  child: Text(
+                    'Keluar',
+                    style: GoogleFonts.poppins(
+                      color: Colors.red,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

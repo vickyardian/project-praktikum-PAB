@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login/login_screen.dart';
+import 'login/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      initialRoute: '/register',
+      routes: {
+        '/register': (context) => const RegisterScreen(),
+        '/login': (context) => const LoginScreen(),
+      },
     );
   }
 }
