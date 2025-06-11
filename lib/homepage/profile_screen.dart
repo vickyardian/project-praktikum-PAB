@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_praktikum/login/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -36,7 +37,6 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        // gambar
                         Container(
                           width: 100,
                           height: 100,
@@ -62,7 +62,6 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 SafeArea(
                   child: Positioned(
                     top: 20,
@@ -114,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   _buildProfileCard(
-                    icon: Icons.camera_alt, // Instagram icon alternative
+                    icon: Icons.camera_alt,
                     title: 'Vickyardian',
                     iconColor: const Color(0xFF2196F3),
                   ),
@@ -234,13 +233,17 @@ class ProfileScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                // Besok untuk menambah logika logout
+                Navigator.of(context).pop(); // Tutup dialog
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Berhasil logout'),
                     backgroundColor: Colors.green,
                   ),
+                );
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  (route) => false,
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -271,18 +274,15 @@ class SemicirclePainter extends CustomPainter {
           ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     final path = Path();
-
     path.moveTo(0, 0);
     path.lineTo(size.width, 0);
     path.lineTo(size.width, size.height - 50);
-
     path.quadraticBezierTo(
       size.width / 2,
       size.height + 50,
       0,
       size.height - 50,
     );
-
     path.close();
 
     canvas.drawPath(path, paint);

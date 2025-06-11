@@ -3,10 +3,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../homepage/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
-  Future<void> _logout(BuildContext context) async {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String nama = '';
+  String nbi = '';
+  String kelas = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nama = prefs.getString('nama') ?? '';
+      nbi = prefs.getString('nbi') ?? '';
+      kelas = prefs.getString('kelas') ?? '';
+    });
+  }
+
+  Future<void> _logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear(); // Hapus semua data tersimpan
     Navigator.pushReplacementNamed(context, '/register'); // Kembali ke Register
@@ -36,32 +60,38 @@ class LoginScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          'PRAKTIKUM PAB 2025',
-                          style: GoogleFonts.poppins(fontSize: 16),
-                        ),
+                        Text(kelas, style: GoogleFonts.poppins(fontSize: 16)),
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 100),
+
+                // Tampilkan NBI
                 Text(
-                  '1462200096',
+                  nbi,
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 30),
+
+                // Logo
                 Image.asset('assets/images/logo.png', height: 150),
+
                 const SizedBox(height: 20),
+
+                // Tampilkan Nama
                 Text(
-                  'Vicky Ardiansyah',
+                  nama,
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 100),
 
                 // Tombol Masuk
@@ -97,7 +127,7 @@ class LoginScreen extends StatelessWidget {
 
                 // Tombol Keluar
                 TextButton(
-                  onPressed: () => _logout(context),
+                  onPressed: _logout,
                   child: Text(
                     'Keluar',
                     style: GoogleFonts.poppins(

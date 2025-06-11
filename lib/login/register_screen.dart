@@ -14,12 +14,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController kelasController = TextEditingController();
 
   Future<void> simpanData() async {
+    String nama = namaController.text.trim();
+    String nbi = nbiController.text.trim();
+    String kelas = kelasController.text.trim();
+
+    if (nama.isEmpty || nbi.isEmpty || kelas.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Semua field harus diisi!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nama', namaController.text);
     await prefs.setString('nbi', nbiController.text);
     await prefs.setString('kelas', kelasController.text);
 
-    // Contoh: Navigasi ke halaman login setelah daftar
+    // Navigasi ke halaman login setelah daftar
     Navigator.pushReplacementNamed(context, '/login');
 
     ScaffoldMessenger.of(
