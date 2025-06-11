@@ -1,9 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_praktikum/login/login_screen.dart';
+//import '../auth/register_screen.dart';
+import '../auth/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String _nama = 'Loading...';
+  String _nbi = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _nama = prefs.getString('nama') ?? 'Tidak diketahui';
+      _nbi = prefs.getString('nbi') ?? 'Tidak diketahui';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +114,20 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   _buildProfileCard(
                     icon: Icons.person,
-                    title: 'Vicky Ardiansyah',
+                    title: _nama, // Nama dari SharedPreferences
                     iconColor: const Color(0xFF2196F3),
                   ),
                   const SizedBox(height: 16),
                   _buildProfileCard(
                     icon: Icons.phone,
-                    title: '1462200096',
+                    title: _nbi, // NBI dari SharedPreferences
                     iconColor: const Color(0xFF2196F3),
                   ),
                   const SizedBox(height: 16),
                   _buildProfileCard(
                     icon: Icons.email,
-                    title: 'vicky.ardiansyah82798@gmail.com',
+                    title:
+                        'vicky.ardiansyah82798@gmail.com', // Bisa dinamis juga
                     iconColor: const Color(0xFF2196F3),
                   ),
                   const SizedBox(height: 16),
@@ -123,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            // Logout
+            // Tombol Logout
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(
@@ -223,17 +248,20 @@ class ProfileScreen extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Batal',
                 style: GoogleFonts.poppins(color: Colors.grey[600]),
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
+              onPressed: () async {
+                Navigator.of(context).pop();
+
+                // // Menghapus data sementara
+                // final prefs = await SharedPreferences.getInstance();
+                // await prefs.clear();
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Berhasil logout'),
@@ -242,6 +270,7 @@ class ProfileScreen extends StatelessWidget {
                 );
                 Navigator.pushAndRemoveUntil(
                   context,
+                  //sesuaikan dengan route login/regiter
                   MaterialPageRoute(builder: (_) => const LoginScreen()),
                   (route) => false,
                 );
