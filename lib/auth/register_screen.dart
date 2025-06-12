@@ -29,11 +29,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('nama', namaController.text);
-    await prefs.setString('nbi', nbiController.text);
-    await prefs.setString('kelas', kelasController.text);
+    await prefs.setString('nama', nama);
+    await prefs.setString('nbi', nbi);
+    await prefs.setString('kelas', kelas);
 
-    // Navigasi ke halaman login setelah daftar
     Navigator.pushReplacementNamed(context, '/login');
 
     ScaffoldMessenger.of(
@@ -44,49 +43,86 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 250, 250, 250),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/register.png', scale: 4, height: 100),
-              const SizedBox(height: 10),
+              Image.asset('assets/images/register.png', height: 100),
+              const SizedBox(height: 20),
               const Text(
                 'WELCOME',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const Text('Praktikum PAB 2025', style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 4),
+              const Text(
+                'Praktikum PAB 2025',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  color: Colors.black54,
+                ),
+              ),
               const SizedBox(height: 32),
-              TextField(
-                controller: namaController,
-                decoration: inputDecoration('Masukan Nama'),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: nbiController,
-                decoration: inputDecoration('Masukan NBI'),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: kelasController,
-                decoration: inputDecoration('Kelas Praktikum'),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: simpanData,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 24,
                   ),
-                  child: const Text(
-                    'Daftar',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  child: Column(
+                    children: [
+                      inputField(
+                        controller: namaController,
+                        label: 'Nama Lengkap',
+                        icon: Icons.person,
+                      ),
+                      const SizedBox(height: 16),
+                      inputField(
+                        controller: nbiController,
+                        label: 'NBI',
+                        icon: Icons.badge,
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 16),
+                      inputField(
+                        controller: kelasController,
+                        label: 'Kelas Praktikum',
+                        icon: Icons.class_,
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: simpanData,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF3BAF6D),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          child: const Text(
+                            'Daftar',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -97,14 +133,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  InputDecoration inputDecoration(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      filled: true,
-      fillColor: Colors.grey[200],
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide.none,
+  Widget inputField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      style: const TextStyle(fontFamily: 'Poppins'),
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: Colors.grey[600]),
+        labelText: label,
+        labelStyle: const TextStyle(fontFamily: 'Poppins'),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 18,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }
