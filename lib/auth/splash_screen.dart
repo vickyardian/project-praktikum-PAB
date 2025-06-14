@@ -31,36 +31,43 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double olafWidth = 200;
+    double centerX = (screenWidth / 2) - (olafWidth / 2);
+
     return Scaffold(
       backgroundColor: const Color(0xfff0c0a6f),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Image.asset('assets/images/img2.png', width: 150)],
+          Positioned(
+            top: 60,
+            left: centerX,
+            child: Image.asset('assets/images/img2.png', width: olafWidth),
           ),
-          const SizedBox(height: 30),
 
-          Image.asset('assets/images/img1.png', width: 200),
+          Positioned(
+            bottom: 60,
+            left: centerX,
+            child: Image.asset('assets/images/img2.png', width: olafWidth),
+          ),
 
-          const SizedBox(height: 20),
-
-          const Text(
-            'PRAKTIKUM PAB 2025',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              letterSpacing: 1.2,
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset('assets/images/img1.png', width: 200),
+                const SizedBox(height: 20),
+                const Text(
+                  'PRAKTIKUM PAB 2025',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ],
             ),
-          ),
-
-          const SizedBox(height: 30),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Image.asset('assets/images/img2.png', width: 150)],
           ),
         ],
       ),
