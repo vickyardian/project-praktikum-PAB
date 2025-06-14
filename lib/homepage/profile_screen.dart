@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import '../auth/register_screen.dart';
 import '../auth/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +13,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String _nama = 'Loading...';
   String _nbi = 'Loading...';
+  String _email = 'Loading...';
+  String _alamat = 'Loading...';
+  String _instagram = 'Loading...';
 
   @override
   void initState() {
@@ -26,6 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _nama = prefs.getString('nama') ?? 'Tidak diketahui';
       _nbi = prefs.getString('nbi') ?? 'Tidak diketahui';
+      _email = prefs.getString('email') ?? 'Tidak diketahui';
+      _alamat = prefs.getString('alamat') ?? 'Tidak diketahui';
+      _instagram = prefs.getString('instagram') ?? 'Tidak diketahui';
     });
   }
 
@@ -104,9 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-
             const SizedBox(height: 30),
-
             // Data Profil
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -120,34 +123,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 16),
                   _buildProfileCard(
                     icon: Icons.phone,
-                    title: _nbi, // NBI dari SharedPreferences
+                    title: _nbi,
                     iconColor: const Color(0xFF2196F3),
                   ),
                   const SizedBox(height: 16),
                   _buildProfileCard(
                     icon: Icons.email,
-                    title:
-                        'vicky.ardiansyah82798@gmail.com', // Bisa dinamis juga
+                    title: _email,
                     iconColor: const Color(0xFF2196F3),
                   ),
                   const SizedBox(height: 16),
                   _buildProfileCard(
                     icon: Icons.location_on,
-                    title: 'Sidoarjo',
+                    title: _alamat,
                     iconColor: const Color(0xFF2196F3),
                   ),
                   const SizedBox(height: 16),
                   _buildProfileCard(
                     icon: Icons.camera_alt,
-                    title: 'Vickyardian',
+                    title: _instagram,
                     iconColor: const Color(0xFF2196F3),
                   ),
                 ],
               ),
             ),
-
             const SizedBox(height: 40),
-
             // Tombol Logout
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

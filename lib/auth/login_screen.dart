@@ -13,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String nama = '';
   String nbi = '';
-  String kelas = '';
 
   @override
   void initState() {
@@ -26,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       nama = prefs.getString('nama') ?? '';
       nbi = prefs.getString('nbi') ?? '';
-      kelas = prefs.getString('kelas') ?? '';
     });
   }
 
@@ -60,7 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(kelas, style: GoogleFonts.poppins(fontSize: 16)),
+                        Text(
+                          'Praktikum PAB 2025',
+                          style: GoogleFonts.poppins(fontSize: 16),
+                        ),
                       ],
                     ),
                   ),
@@ -77,12 +78,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(height: 30),
-
                 // Logo
                 Image.asset('assets/images/logo.png', height: 150),
 
                 const SizedBox(height: 20),
-
                 // Tampilkan Nama
                 Text(
                   nama,
@@ -93,7 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(height: 100),
-
                 // Tombol Masuk
                 ElevatedButton(
                   onPressed: () {
@@ -124,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(height: 20),
-
                 // Tombol Keluar
                 TextButton(
                   onPressed: _logout,

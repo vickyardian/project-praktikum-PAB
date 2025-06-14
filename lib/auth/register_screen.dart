@@ -11,14 +11,22 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController namaController = TextEditingController();
   final TextEditingController nbiController = TextEditingController();
-  final TextEditingController kelasController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController alamatController = TextEditingController();
+  final TextEditingController instagramController = TextEditingController();
 
   Future<void> simpanData() async {
     String nama = namaController.text.trim();
     String nbi = nbiController.text.trim();
-    String kelas = kelasController.text.trim();
+    String email = emailController.text.trim();
+    String alamat = alamatController.text.trim();
+    String instagram = instagramController.text.trim();
 
-    if (nama.isEmpty || nbi.isEmpty || kelas.isEmpty) {
+    if (nama.isEmpty ||
+        nbi.isEmpty ||
+        email.isEmpty ||
+        alamat.isEmpty ||
+        instagram.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Semua field harus diisi!'),
@@ -31,7 +39,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nama', nama);
     await prefs.setString('nbi', nbi);
-    await prefs.setString('kelas', kelas);
+    await prefs.setString('email', email);
+    await prefs.setString('alamat', alamat);
+    await prefs.setString('instagram', instagram);
 
     Navigator.pushReplacementNamed(context, '/login');
 
@@ -96,10 +106,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 16),
                       inputField(
-                        controller: kelasController,
-                        label: 'Kelas Praktikum',
-                        icon: Icons.class_,
+                        controller: emailController,
+                        label: 'Email',
+                        icon: Icons.email,
                       ),
+                      const SizedBox(height: 16),
+                      inputField(
+                        controller: alamatController,
+                        label: 'Alamat',
+                        icon: Icons.home,
+                      ),
+                      const SizedBox(height: 16),
+                      inputField(
+                        controller: instagramController,
+                        label: 'Instagram',
+                        icon: Icons.home,
+                      ),
+
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
