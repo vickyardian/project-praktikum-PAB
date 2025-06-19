@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_praktikum/auth/pin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../homepage/home_screen.dart';
+//import '../homepage/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
+                        builder: (context) => const PinScreen(),
                       ),
                     );
                   },

@@ -14,6 +14,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
   final TextEditingController instagramController = TextEditingController();
+  final TextEditingController pinController =
+      TextEditingController(); // Tambahan
 
   Future<void> simpanData() async {
     String nama = namaController.text.trim();
@@ -21,12 +23,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String email = emailController.text.trim();
     String alamat = alamatController.text.trim();
     String instagram = instagramController.text.trim();
+    String pin = pinController.text.trim();
 
+    // Validasi field kosong
     if (nama.isEmpty ||
         nbi.isEmpty ||
         email.isEmpty ||
         alamat.isEmpty ||
-        instagram.isEmpty) {
+        instagram.isEmpty ||
+        pin.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Semua field harus diisi!'),
@@ -36,18 +41,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
+    // Validasi panjang PIN
+    if (pin.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('PIN harus minimal 6 digit!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Simpan ke SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nama', nama);
     await prefs.setString('nbi', nbi);
     await prefs.setString('email', email);
     await prefs.setString('alamat', alamat);
     await prefs.setString('instagram', instagram);
+    await prefs.setString('pin', pin); // Simpan PIN
 
-    Navigator.pushReplacementNamed(context, '/login');
-
+    // Beri notifikasi dan pindah ke login
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
+
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
@@ -120,9 +139,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       inputField(
                         controller: instagramController,
                         label: 'Instagram',
-                        icon: Icons.home,
+                        icon: Icons.camera_alt,
                       ),
-
+                      const SizedBox(height: 16),
+                      inputField(
+                        controller: pinController,
+                        label: 'PIN (Minimal 6 digit)',
+                        icon: Icons.lock,
+                        keyboardType: TextInputType.number,
+                      ),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
@@ -165,6 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      obscureText: label.toLowerCase().contains('pin'), // Sembunyikan PIN
       style: const TextStyle(fontFamily: 'Poppins'),
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: Colors.grey[600]),
