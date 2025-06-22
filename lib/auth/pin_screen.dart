@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../homepage/home_screen.dart';
+import 'package:project_praktikum/homepage/secret_page.dart';
 
 class PinScreen extends StatefulWidget {
   const PinScreen({super.key});
@@ -30,7 +30,7 @@ class _PinScreenState extends State<PinScreen> {
     if (pinController.text == savedPin) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const SecretPage()),
       );
     } else {
       ScaffoldMessenger.of(

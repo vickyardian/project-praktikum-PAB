@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'auth/login_screen.dart';
 import 'auth/register_screen.dart';
 import 'auth/splash_screen.dart';
-import 'auth/pin_screen.dart';
+//import 'auth/pin_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/register': (context) => const RegisterScreen(),
-        '/pin': (context) => const PinScreen(),
         '/login': (context) => const LoginScreen(),
+        //'/pin': (context) => const PinScreen(),
       },
     );
   }

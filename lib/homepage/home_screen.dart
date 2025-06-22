@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'detail_menu.dart';
 import 'menu_screen.dart';
 import 'profile_screen.dart';
+import 'package:project_praktikum/auth/pin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,7 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> appBarTitles = ['Beranda', 'Daftar Menu', 'Profile'];
+    final List<String> appBarTitles = [
+      'Beranda',
+      'Daftar Menu',
+      'PIN',
+      'Profile',
+    ];
 
     Widget bodyContent;
     switch (_selectedIndex) {
@@ -66,6 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
         bodyContent = const MenuScreen();
         break;
       case 2:
+        bodyContent = const PinScreen();
+        break;
+      case 3:
         bodyContent = const ProfileScreen();
         break;
       default:
@@ -74,10 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar:
-          _selectedIndex == 2
+          _selectedIndex == 3
               ? null
               : AppBar(
-                // Hide AppBar for Profile screen
                 title: Text(
                   appBarTitles[_selectedIndex],
                   style: GoogleFonts.poppins(
@@ -91,20 +99,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: const Color.fromARGB(255, 42, 136, 18),
               ),
       body:
-          _selectedIndex == 2
-              ? bodyContent // Profile screen handles its own padding
+          _selectedIndex == 3
+              ? bodyContent
               : Padding(padding: const EdgeInsets.all(8.0), child: bodyContent),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onNavTapped,
         selectedItemColor: Colors.green[700],
-        type: BottomNavigationBarType.fixed, // Required for 3+ tabs
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_menu),
             label: 'Menu',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'PIN'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

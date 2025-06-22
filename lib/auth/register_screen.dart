@@ -14,8 +14,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
   final TextEditingController instagramController = TextEditingController();
-  final TextEditingController pinController =
-      TextEditingController(); // Tambahan
+  final TextEditingController pinController = TextEditingController();
 
   Future<void> simpanData() async {
     String nama = namaController.text.trim();
