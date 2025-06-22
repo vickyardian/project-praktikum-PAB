@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'digimon_list_item.dart'; // <-- TAMBAHKAN IMPORT INI
+import 'digimon_list_item.dart';
 
 class SecretPage extends StatefulWidget {
   const SecretPage({super.key});
