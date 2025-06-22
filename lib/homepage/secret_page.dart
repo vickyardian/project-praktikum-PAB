@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'digimon_list_item.dart'; // <-- TAMBAHKAN IMPORT INI
 
 class SecretPage extends StatefulWidget {
   const SecretPage({super.key});
@@ -11,28 +11,29 @@ class SecretPage extends StatefulWidget {
 
 class _SecretPageState extends State<SecretPage> {
   late Future<List<dynamic>> _data;
+  final Dio dio = Dio();
 
-  final String apiUrl = 'https://rickandmortyapi.com/api/character?page=2';
+  final String apiUrl = 'https://digi-api.com/api/v1/digimon?page=0';
   final Map<String, String> dataKeys = {
     'image': 'image',
     'title': 'name',
-    'gender': 'gender',
-    'status': 'status',
-    'species': 'species',
+    'href': 'href',
   };
 
   Future<List<dynamic>> fetchData() async {
-    final finalUri = Uri.parse(apiUrl);
-    final response = await http.get(finalUri);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      if (data is Map && data['results'] is List) {
-        return List<dynamic>.from(data['results']);
+    try {
+      final response = await dio.get(apiUrl);
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data is Map && data.containsKey('content')) {
+          return List<dynamic>.from(data['content']);
+        }
+        return [];
+      } else {
+        throw Exception('Gagal memuat data (status ${response.statusCode})');
       }
-      return [];
-    } else {
-      throw Exception('Failed to load data (status ${response.statusCode})');
+    } catch (e) {
+      throw Exception('Gagal memuat data: $e');
     }
   }
 
@@ -65,65 +66,12 @@ class _SecretPageState extends State<SecretPage> {
               padding: const EdgeInsets.symmetric(vertical: 8),
               itemBuilder: (context, index) {
                 final item = items[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            item[dataKeys['image']] ?? '',
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder:
-                                (ctx, e, s) =>
-                                    const Icon(Icons.broken_image, size: 40),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item[dataKeys['title']] ?? 'No Title',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                'Gender: ${item[dataKeys['gender']] ?? 'N/A'}',
-                              ),
-                              Text(
-                                'Status: ${item[dataKeys['status']] ?? 'N/A'}',
-                              ),
-                              Text(
-                                'Species: ${item[dataKeys['species']] ?? 'N/A'}',
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                // Penggunaan tetap sama, karena sudah di-import
+                return DigimonListItem(item: item, dataKeys: dataKeys);
               },
             );
           } else {
-            return const Center(child: Text('No data found.'));
+            return const Center(child: Text('Tidak ada data ditemukan.'));
           }
         },
       ),
